@@ -15,7 +15,7 @@ export function LandingHeader() {
     >
       <div className="ds-container flex h-16 items-center justify-between">
         <Link href="/" className="flex items-center gap-2">
-          <span className="flex size-9 items-center justify-center rounded-lg border-2 border-ds-border bg-ds-panel shadow-[var(--ds-sticker-shadow)]">
+          <span className="flex size-9 items-center justify-center rounded-lg border-2 border-ds-border bg-ds-panel shadow-(--ds-sticker-shadow)">
             <FileText className="size-5 text-ds-brand" aria-hidden />
           </span>
           <span className="font-heading text-xl text-ds-heading md:text-2xl">
