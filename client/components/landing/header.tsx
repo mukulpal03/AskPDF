@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { BrandButton } from "@/components/ui/brand-button";
+import { AuthHeaderActions } from "@/components/auth/auth-header-actions";
 import { FileText } from "lucide-react";
 
 const navLinks = [
@@ -31,7 +32,7 @@ export function LandingHeader() {
           ))}
         </nav>
 
-        <BrandButton href="#get-started">Get started</BrandButton>
+        <AuthHeaderActions />
       </div>
     </header>
   );

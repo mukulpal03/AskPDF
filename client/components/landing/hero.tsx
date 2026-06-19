@@ -21,7 +21,7 @@ export function HeroSection() {
               hundreds of pages.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-4">
-              <BrandButton href="#get-started">Start for free</BrandButton>
+              <BrandButton href="/sign-up">Start for free</BrandButton>
               <BrandButton variant="tertiary" href="#how-it-works">
                 See how it works
               </BrandButton>

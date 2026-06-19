@@ -9,8 +9,8 @@ type BrandButtonProps = {
   className?: string;
   children: React.ReactNode;
 } & (
-  | React.ComponentProps<"button">
-  | React.ComponentProps<typeof Link>
+  | Omit<React.ComponentProps<"button">, "href">
+  | Omit<React.ComponentProps<typeof Link>, "href">
 );
 
 const variantClass: Record<BrandButtonVariant, string> = {
@@ -27,10 +27,12 @@ export function BrandButton({
   ...props
 }: BrandButtonProps) {
   const classes = cn(variantClass[variant], className);
+  const linkHref = href ?? (props as { href?: string }).href;
 
-  if (href) {
+  if (linkHref) {
+    const { href: _href, ...linkProps } = props as React.ComponentProps<typeof Link>;
     return (
-      <Link href={href} className={classes} {...(props as React.ComponentProps<typeof Link>)}>
+      <Link href={linkHref} className={classes} {...linkProps}>
         {children}
       </Link>
     );

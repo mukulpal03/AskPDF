@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, DynaPuff } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { ClerkProvider } from "@clerk/nextjs";
+import { shadcn } from "@clerk/ui/themes";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,12 +38,12 @@ export default function RootLayout({
         "h-full antialiased",
         geistSans.variable,
         geistMono.variable,
-        dynaPuff.variable
+        dynaPuff.variable,
       )}
     >
-      <ClerkProvider>
-        <body className="flex min-h-full flex-col font-sans">{children}</body>
-      </ClerkProvider>
+      <body className="flex min-h-full flex-col font-sans">
+        <ClerkProvider appearance={{ theme: shadcn }}>{children}</ClerkProvider>
+      </body>
     </html>
   );
 }
