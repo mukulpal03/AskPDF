@@ -11,6 +11,7 @@ app.use(cors({ origin: env.clientUrl }));
 app.use(express.json());
 
 app.use("/api/v1", v1Router);
+
 app.use(errorHandler);
 
 export default app;
