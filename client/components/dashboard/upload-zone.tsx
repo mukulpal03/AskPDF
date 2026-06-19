@@ -1,13 +1,36 @@
+"use client";
+
 import { Upload } from "lucide-react";
 import { StickerPanel } from "@/components/ui/sticker-panel";
 import { BrandButton } from "@/components/ui/brand-button";
+import { useDocumentUpload } from "@/hooks/use-document-upload";
 import { cn } from "@/lib/utils";
+import { useRef } from "react";
 
 type UploadZoneProps = {
   className?: string;
 };
 
 export function UploadZone({ className }: UploadZoneProps) {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const { upload, isUploading, error, successMessage } = useDocumentUpload();
+
+  const handleBrowseFiles = () => {
+    if (isUploading) return;
+    fileInputRef.current?.click();
+  };
+
+  const handleFileSelect = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const file = event.target.files?.[0];
+    event.target.value = "";
+
+    if (!file) return;
+
+    await upload(file);
+  };
+
   return (
     <StickerPanel className={cn("relative", className)}>
       <div
@@ -26,17 +49,48 @@ export function UploadZone({ className }: UploadZoneProps) {
           Upload a PDF
         </h2>
         <p className="mt-2 max-w-md font-sans text-sm leading-relaxed text-ds-body md:text-base">
-          Drag and drop your file here, or browse from your computer. We&apos;ll
-          index every page so you can chat with it.
+          Choose a PDF from your computer. Files are saved to the server for now.
         </p>
 
-        <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-          <BrandButton type="button" aria-disabled="true">
-            Browse files
-          </BrandButton>
-          <span className="font-sans text-xs text-ds-body-subtle">
-            PDF only · Max 10 MB
-          </span>
+        <div className="mt-6 flex flex-col items-center gap-3">
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            <BrandButton
+              type="button"
+              onClick={handleBrowseFiles}
+              disabled={isUploading}
+              aria-busy={isUploading}
+            >
+              {isUploading ? "Uploading…" : "Browse files"}
+            </BrandButton>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="application/pdf,.pdf"
+              hidden
+              onChange={handleFileSelect}
+            />
+            <span className="font-sans text-xs text-ds-body-subtle">
+              PDF only · Max 10 MB
+            </span>
+          </div>
+
+          {successMessage && (
+            <p
+              role="status"
+              className="max-w-md font-sans text-sm text-ds-heading"
+            >
+              {successMessage}
+            </p>
+          )}
+
+          {error && (
+            <p
+              role="alert"
+              className="max-w-md font-sans text-sm text-red-700 dark:text-red-300"
+            >
+              {error}
+            </p>
+          )}
         </div>
       </div>
     </StickerPanel>
