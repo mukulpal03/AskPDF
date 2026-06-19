@@ -1,4 +1,5 @@
 import type { NextFunction, Request, Response } from "express";
+import { AppError } from "../errors/app-error.ts";
 import { processDocumentUpload } from "../services/document.service.ts";
 
 export async function uploadDocument(
@@ -7,7 +8,7 @@ export async function uploadDocument(
   next: NextFunction,
 ): Promise<void> {
   if (!req.file) {
-    res.status(400).json({ message: "No file uploaded." });
+    next(AppError.badRequest("No file uploaded."));
     return;
   }
 
@@ -15,6 +16,6 @@ export async function uploadDocument(
     const result = await processDocumentUpload(req.file);
     res.status(201).json({ ...result, message: "File uploaded successfully" });
   } catch (error) {
-    next(error);
+    next(AppError.fromUnknown(error));
   }
 }
