@@ -1,5 +1,6 @@
 import multer from "multer";
 import path from "path";
+import { AppError } from "../errors/app-error.ts";
 
 const storage = multer.diskStorage({
   destination(_req, _file, cb) {
@@ -26,6 +27,6 @@ export const pdfUpload = multer({
       cb(null, true);
       return;
     }
-    cb(new Error("Only PDF files are allowed."));
+    cb(AppError.badRequest("Only PDF files are allowed."));
   },
 });
